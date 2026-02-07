@@ -20,11 +20,25 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section className="mx-auto max-w-5xl px-6 py-24 text-center">
+      <section className="mx-auto max-w-5xl px-6 py-16 text-center">
         <h2 className="text-5xl font-bold tracking-tight">Strecs3D</h2>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-foreground/70">
           3Dソフトウェア
         </p>
+        <div className="mt-10 overflow-hidden rounded-lg">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full"
+          >
+            <source
+              src="https://github.com/tomohiron907/Strecs3D-web/releases/download/v1.0.0/Strecs3D-demo.mp4"
+              type="video/mp4"
+            />
+          </video>
+        </div>
         <div className="mt-10 flex justify-center gap-4">
           <a
             href="#download"
