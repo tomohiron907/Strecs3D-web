@@ -1,5 +1,3 @@
-const BASE_PATH = process.env.NODE_ENV === "production" ? "/Strecs3D-web" : "";
-
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -7,8 +5,8 @@ export default function Home() {
       <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
-            <img src={`${BASE_PATH}/logo-mark.png`} alt="Strecs3D" className="h-10" />
-            <img src={`${BASE_PATH}/logo-type.svg`} alt="Strecs3D" className="h-6" />
+            <img src="/logo-mark.png" alt="Strecs3D" className="h-10" />
+            <img src="/logo-type.svg" alt="Strecs3D" className="h-6" />
           </div>
           <nav className="flex gap-6 text-sm">
             <a href="#benefits" className="transition-colors hover:text-foreground/70">
@@ -117,17 +115,17 @@ export default function Home() {
           </p>
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { src: `${BASE_PATH}/examples/bearing_holder.png`, alt: "Bearing Holder" },
-              { src: `${BASE_PATH}/examples/canti.png`, alt: "Cantilever" },
-              { src: `${BASE_PATH}/examples/drone.png`, alt: "Drone" },
-              { src: `${BASE_PATH}/examples/frame_connector.png`, alt: "Frame Connector" },
-              { src: `${BASE_PATH}/examples/wall_hook.png`, alt: "Wall Hook" },
-              { src: `${BASE_PATH}/examples/tablet_stand.png`, alt: "Tablet Stand" },
-              { src: `${BASE_PATH}/examples/rod_connector.png`, alt: "Rod Connector" },
-              { src: `${BASE_PATH}/examples/motor_mount.png`, alt: "Motor Mount" },
-              { src: `${BASE_PATH}/examples/iphone_stand.png`, alt: "iPhone Stand" },
-              { src: `${BASE_PATH}/examples/hook.png`, alt: "Hook" },
-              { src: `${BASE_PATH}/examples/handle.png`, alt: "Handle" },
+              { src: "/examples/bearing_holder.png", alt: "Bearing Holder" },
+              { src: "/examples/canti.png", alt: "Cantilever" },
+              { src: "/examples/drone.png", alt: "Drone" },
+              { src: "/examples/frame_connector.png", alt: "Frame Connector" },
+              { src: "/examples/wall_hook.png", alt: "Wall Hook" },
+              { src: "/examples/tablet_stand.png", alt: "Tablet Stand" },
+              { src: "/examples/rod_connector.png", alt: "Rod Connector" },
+              { src: "/examples/motor_mount.png", alt: "Motor Mount" },
+              { src: "/examples/iphone_stand.png", alt: "iPhone Stand" },
+              { src: "/examples/hook.png", alt: "Hook" },
+              { src: "/examples/handle.png", alt: "Handle" },
             ].map((item) => (
               <div
                 key={item.src}
