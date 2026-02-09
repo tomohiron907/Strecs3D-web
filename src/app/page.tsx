@@ -72,35 +72,50 @@ export default function Home() {
             Three Core Benefits
           </h2>
           <div className="mt-14 grid gap-10 sm:grid-cols-3">
-            <div className="rounded-xl border border-foreground/10 p-8">
-              <p className="text-2xl">01</p>
-              <h3 className="mt-3 text-lg font-semibold">Reliability</h3>
-              <p className="mt-3 text-sm leading-relaxed text-foreground/70">
-                Infill density is determined based on mechanical evidence.
-                The software automatically identifies stress concentration
-                points and locally increases density, delivering maximum
-                strength with minimal weight gain.
-              </p>
-            </div>
-            <div className="rounded-xl border border-foreground/10 p-8">
-              <p className="text-2xl">02</p>
-              <h3 className="mt-3 text-lg font-semibold">Integration</h3>
-              <p className="mt-3 text-sm leading-relaxed text-foreground/70">
-                Strecs3D is a preprocessor that sits between your CAD tool and
-                slicer. Keep using Bambu Studio, Cura, or PrusaSlicer as
-                usual — it optimizes the infill via 3MF metadata.
-              </p>
-            </div>
-            <div className="rounded-xl border border-foreground/10 p-8">
-              <p className="text-2xl">03</p>
-              <h3 className="mt-3 text-lg font-semibold">Built-in &amp; Free</h3>
-              <p className="mt-3 text-sm leading-relaxed text-foreground/70">
-                Strecs3D comes with its own stress analysis engine built in.
-                No expensive licenses required. An intuitive UI lets anyone
-                run analysis quickly — setup, analyze, and optimize all in
-                one tool.
-              </p>
-            </div>
+            {[
+              {
+                title: "Reliability",
+                subtitle: "Evidence-based optimization",
+                desc: "Infill density is determined based on stress simulation. The software automatically identifies stress concentration points and locally increases density, delivering maximum strength with minimal weight gain.",
+                icon: (
+                  <img src="figures/infill-optimization.svg" alt="Reliability" className="h-40 w-60" />
+                ),
+              },
+              {
+                title: "Integration",
+                subtitle: "Works with your slicer",
+                desc: "Strecs3D is a preprocessor that sits between your CAD tool and slicer. Keep using Bambu Studio, Cura, or PrusaSlicer as usual — it optimizes the infill via 3MF metadata.",
+                icon: (
+                  <img src="figures/integration.svg" alt="Integration" className="h-40 w-60" />
+                ),
+              },
+              {
+                title: "Built-in FEM & Free",
+                subtitle: "No extra licenses needed",
+                desc: "Strecs3D comes with its own stress analysis engine built in. No expensive licenses required. Anyone can run analysis quickly — setup, analyze, and optimize all in one tool.",
+                icon: (
+                  <img src="figures/built-in-FEM.svg" alt="Built-in FEM & Free" className="h-40 w-60" />
+                ),
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="group relative flex flex-col items-center overflow-hidden rounded-xl border border-foreground/10 p-8 transition-all duration-300 hover:border-foreground/30"
+              >
+                {/* Default: icon + title */}
+                <div className="flex flex-col items-center transition-opacity duration-300 group-hover:opacity-0">
+                  <div className="text-foreground/80">{item.icon}</div>
+                  <h3 className="mt-5 text-lg font-semibold">{item.title}</h3>
+                  <p className="mt-1 text-sm text-foreground/50">{item.subtitle}</p>
+                </div>
+                {/* Hover: description overlay */}
+                <div className="absolute inset-0 flex items-center justify-center p-8 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <p className="text-sm leading-relaxed text-foreground/70">
+                    {item.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
