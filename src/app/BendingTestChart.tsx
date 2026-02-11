@@ -1,21 +1,19 @@
 "use client";
 
 import {
-  ScatterChart,
   Scatter,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   Line,
   ComposedChart,
+  ReferenceDot,
   ReferenceLine,
 } from "recharts";
 
 // Normal specimen data (9 points)
-// Raw data: (Load [N], Bend [10⁻²mm])
 const normalData = [
   { bend: 20, load: 20 },
   { bend: 30, load: 29.5 },
@@ -29,7 +27,6 @@ const normalData = [
 ].map((d) => ({ ...d, normalLoad: d.load }));
 
 // Strecs3D specimen data (15 points)
-// Raw data: (Load [N], Bend [10⁻²mm])
 const strecs3dData = [
   { bend: 6.5, load: 10 },
   { bend: 13.1, load: 20.5 },
@@ -48,11 +45,20 @@ const strecs3dData = [
   { bend: 120.2, load: 150.5 },
 ].map((d) => ({ ...d, strecs3dLoad: d.load }));
 
-// Regression lines: Load [N] = k * Bend [mm] + intercept
-// Normal:    k=75.675 N/mm, intercept=8.177
-// Strecs3D:  k=125.153 N/mm, intercept=9.774
-// X-axis is in 10⁻²mm, so: Load = k * (bend * 0.01) + intercept
-//   = (k * 0.01) * bend + intercept
+// Regression: Load = (k_mm * 0.01) * bend + intercept
+const NORMAL_K = 75.675 * 0.01;
+const NORMAL_INTERCEPT = 8.177;
+const STRECS_K = 125.153 * 0.01;
+const STRECS_INTERCEPT = 9.774;
+
+// Break loads (bend at break is unknown)
+const NORMAL_BREAK_LOAD = 121.5;
+const STRECS_BREAK_LOAD = 239.5;
+
+// Last measured point
+const normalLastPoint = { bend: 122, load: 100 };
+const strecs3dLastPoint = { bend: 120.2, load: 150.5 };
+
 function generateRegressionLine(
   k: number,
   intercept: number,
@@ -60,26 +66,44 @@ function generateRegressionLine(
   key: string
 ) {
   const points = [];
-  for (let b = 0; b <= maxBend; b += 5) {
+  for (let b = 0; b <= maxBend; b += 2) {
     points.push({ bend: b, [key]: k * b + intercept });
   }
   return points;
 }
 
 const normalRegression = generateRegressionLine(
-  75.675 * 0.01,
-  8.177,
-  130,
+  NORMAL_K,
+  NORMAL_INTERCEPT,
+  normalLastPoint.bend,
   "normalReg"
 );
 const strecs3dRegression = generateRegressionLine(
-  125.153 * 0.01,
-  9.774,
-  130,
+  STRECS_K,
+  STRECS_INTERCEPT,
+  strecs3dLastPoint.bend,
   "strecs3dReg"
 );
 
-// Merge all data for ComposedChart
+// Vertical arrow lines: from last measured load up to break load
+const normalArrowData = [
+  { bend: normalLastPoint.bend, normalArrow: normalLastPoint.load },
+  { bend: normalLastPoint.bend + 0.01, normalArrow: NORMAL_BREAK_LOAD },
+];
+const strecs3dArrowData = [
+  { bend: strecs3dLastPoint.bend, strecs3dArrow: strecs3dLastPoint.load },
+  { bend: strecs3dLastPoint.bend + 0.01, strecs3dArrow: STRECS_BREAK_LOAD },
+];
+
+// Break point markers only (tip of the arrow)
+const normalBreakMarker = [
+  { bend: normalLastPoint.bend + 0.01, normalBreakPt: NORMAL_BREAK_LOAD },
+];
+const strecs3dBreakMarker = [
+  { bend: strecs3dLastPoint.bend + 0.01, strecs3dBreakPt: STRECS_BREAK_LOAD },
+];
+
+// Merge all data
 function mergeData() {
   const map = new Map<number, Record<string, number>>();
 
@@ -95,30 +119,64 @@ function mergeData() {
   addPoints(strecs3dData);
   addPoints(normalRegression);
   addPoints(strecs3dRegression);
+  addPoints(normalArrowData);
+  addPoints(strecs3dArrowData);
+  addPoints(normalBreakMarker);
+  addPoints(strecs3dBreakMarker);
 
   return Array.from(map.values()).sort((a, b) => a.bend - b.bend);
 }
 
 const chartData = mergeData();
 
-const NORMAL_COLOR = "#6b7280"; // gray-500
-const STRECS_COLOR = "#2563eb"; // blue-600
+const NORMAL_COLOR = "#6b7280";
+const STRECS_COLOR = "#2563eb";
+
+// Small triangle marker pointing up — top vertex aligns with the data point (cy)
+function TriangleUp({ cx, cy, fill }: { cx?: number; cy?: number; fill?: string }) {
+  if (cx == null || cy == null) return null;
+  const s = 5;
+  return (
+    <polygon
+      points={`${cx},${cy} ${cx - s},${cy + s * 2} ${cx + s},${cy + s * 2}`}
+      fill={fill}
+      stroke={fill}
+      strokeWidth={1}
+    />
+  );
+}
 
 export default function BendingTestChart() {
   return (
-    <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
+    <div className="flex flex-col gap-8 lg:flex-row lg:items-stretch">
       {/* Chart */}
       <div className="flex-1 min-w-0">
         <div className="rounded-xl border border-foreground/10 p-4 sm:p-6">
-          <h3 className="mb-4 text-lg font-semibold">
-            Three-Point Bending Test
-          </h3>
-          <ResponsiveContainer width="100%" height={360}>
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-lg font-semibold">
+              Three-Point Bending Test
+            </h3>
+            <div className="flex items-center gap-4 text-xs">
+              <span className="flex items-center gap-1.5">
+                <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: NORMAL_COLOR }} />
+                Normal
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: STRECS_COLOR }} />
+                Strecs3D
+              </span>
+            </div>
+          </div>
+          <ResponsiveContainer width="100%" height={380}>
             <ComposedChart
               data={chartData}
-              margin={{ top: 10, right: 20, bottom: 20, left: 10 }}
+              margin={{ top: 30, right: 30, bottom: 20, left: 10 }}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--foreground)" opacity={0.1} />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="var(--foreground)"
+                opacity={0.1}
+              />
               <XAxis
                 dataKey="bend"
                 type="number"
@@ -157,12 +215,23 @@ export default function BendingTestChart() {
                 }}
                 labelStyle={{ color: "var(--foreground)" }}
               />
-              <Legend
-                verticalAlign="top"
-                wrapperStyle={{ fontSize: 12, paddingBottom: 8 }}
+{/* Legend removed — custom legend rendered outside chart */}
+
+              {/* Subtle horizontal lines at break loads */}
+              <ReferenceLine
+                y={NORMAL_BREAK_LOAD}
+                stroke={NORMAL_COLOR}
+                strokeDasharray="3 3"
+                strokeOpacity={0.7}
+              />
+              <ReferenceLine
+                y={STRECS_BREAK_LOAD}
+                stroke={STRECS_COLOR}
+                strokeDasharray="3 3"
+                strokeOpacity={0.7}
               />
 
-              {/* Regression lines */}
+              {/* Regression lines (measured range only) */}
               <Line
                 dataKey="normalReg"
                 name="Normal (regression)"
@@ -182,7 +251,29 @@ export default function BendingTestChart() {
                 connectNulls
               />
 
-              {/* Scatter points */}
+              {/* Vertical arrow lines to break load */}
+              <Line
+                dataKey="normalArrow"
+                name="Normal → fracture"
+                stroke={NORMAL_COLOR}
+                strokeWidth={1.5}
+                strokeDasharray="4 3"
+                dot={false}
+                connectNulls
+                legendType="none"
+              />
+              <Line
+                dataKey="strecs3dArrow"
+                name="Strecs3D → fracture"
+                stroke={STRECS_COLOR}
+                strokeWidth={1.5}
+                strokeDasharray="4 3"
+                dot={false}
+                connectNulls
+                legendType="none"
+              />
+
+              {/* Measured data points */}
               <Scatter
                 dataKey="normalLoad"
                 name="Normal"
@@ -196,54 +287,78 @@ export default function BendingTestChart() {
                 r={4}
               />
 
-              {/* Break load reference lines */}
-              <ReferenceLine
-                y={121.5}
-                stroke={NORMAL_COLOR}
-                strokeDasharray="3 3"
+              {/* Triangle markers at break points only */}
+              <Scatter
+                dataKey="normalBreakPt"
+                name="Normal fracture"
+                shape={<TriangleUp />}
+                fill={NORMAL_COLOR}
+                legendType="none"
+              />
+              <Scatter
+                dataKey="strecs3dBreakPt"
+                name="Strecs3D fracture"
+                shape={<TriangleUp />}
+                fill={STRECS_COLOR}
+                legendType="none"
+              />
+
+              {/* Break load labels */}
+              <ReferenceDot
+                x={normalLastPoint.bend}
+                y={NORMAL_BREAK_LOAD}
+                r={0}
                 label={{
-                  value: "121.5 N",
-                  position: "right",
+                  value: `Broke at ${NORMAL_BREAK_LOAD} N`,
+                  position: "left",
                   fill: NORMAL_COLOR,
                   fontSize: 11,
+                  fontWeight: 600,
                 }}
               />
-              <ReferenceLine
-                y={239.5}
-                stroke={STRECS_COLOR}
-                strokeDasharray="3 3"
+              <ReferenceDot
+                x={strecs3dLastPoint.bend}
+                y={STRECS_BREAK_LOAD}
+                r={0}
                 label={{
-                  value: "239.5 N",
-                  position: "right",
+                  value: `Broke at ${STRECS_BREAK_LOAD} N`,
+                  position: "top",
                   fill: STRECS_COLOR,
                   fontSize: 11,
+                  fontWeight: 600,
                 }}
               />
             </ComposedChart>
           </ResponsiveContainer>
-          <p className="mt-2 text-xs text-foreground/50 text-center">
-            R² = 0.993 (Normal) / R² = 0.985 (Strecs3D)
-          </p>
         </div>
       </div>
 
       {/* Summary cards */}
-      <div className="flex flex-row gap-4 lg:flex-col lg:w-56 shrink-0">
-        <div className="flex-1 rounded-xl border border-foreground/10 p-6 text-center">
+      <div className="flex flex-row gap-3 lg:flex-col lg:w-48 shrink-0">
+        <div className="flex-1 rounded-xl border border-foreground/10 p-4 flex flex-col items-center justify-center text-center">
+          <p className="text-xs font-medium uppercase tracking-wider text-foreground/50">
+            Three-Point Bending Test
+          </p>
+          <img src="/figures/bend-test.svg" alt="Three-point bending test" className="mt-2 h-24 w-auto opacity-80" />
+          <p className="mt-2 text-xs text-foreground/50">
+            Specimen weight: 15.8 g each
+          </p>
+        </div>
+        <div className="flex-1 rounded-xl border border-foreground/10 p-4 flex flex-col items-center justify-center text-center">
           <p className="text-xs font-medium uppercase tracking-wider text-foreground/50">
             Stiffness (EI) Ratio
           </p>
-          <p className="mt-2 text-3xl font-bold text-blue-600">1.65x</p>
-          <p className="mt-1 text-xs text-foreground/50">
+          <p className="mt-1 text-2xl font-bold">1.65x</p>
+          <p className="mt-0.5 text-xs text-foreground/50">
             Strecs3D vs Normal
           </p>
         </div>
-        <div className="flex-1 rounded-xl border border-foreground/10 p-6 text-center">
+        <div className="flex-1 rounded-xl border border-foreground/10 p-4 flex flex-col items-center justify-center text-center">
           <p className="text-xs font-medium uppercase tracking-wider text-foreground/50">
             Max Load Ratio
           </p>
-          <p className="mt-2 text-3xl font-bold text-blue-600">1.97x</p>
-          <p className="mt-1 text-xs text-foreground/50">
+          <p className="mt-1 text-2xl font-bold">1.97x</p>
+          <p className="mt-0.5 text-xs text-foreground/50">
             239.5 N vs 121.5 N
           </p>
         </div>

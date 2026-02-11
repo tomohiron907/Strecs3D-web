@@ -179,10 +179,10 @@ export default function Home() {
       <section id="evidence" className="border-t border-foreground/10 py-24">
         <div className="mx-auto max-w-5xl px-6">
           <h2 className="text-center text-3xl font-bold">
-            Scientific Evidence
+            Optimized Infill, Proven Strength
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-foreground/70">
-            Backed by rigorous material testing in a master&apos;s thesis.
+            At the same weight, Strecs3D&apos;s optimized infill delivers significantly higher stiffness and fracture resistance.
           </p>
           <div className="mt-14">
             <BendingTestChart />
