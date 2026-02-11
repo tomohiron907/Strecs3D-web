@@ -1,4 +1,5 @@
 import WorkflowSection from "./WorkflowSection";
+import BendingTestChart from "./BendingTestChart";
 
 export default function Home() {
   return (
@@ -19,6 +20,9 @@ export default function Home() {
             </a>
             <a href="#workflow" className="transition-colors hover:text-foreground/70">
               Workflow
+            </a>
+            <a href="#evidence" className="transition-colors hover:text-foreground/70">
+              Evidence
             </a>
             <a href="#get-started" className="transition-colors hover:text-foreground/70">
               Get Started
@@ -172,7 +176,7 @@ export default function Home() {
       <WorkflowSection />
 
       {/* Evidence */}
-      <section className="border-t border-foreground/10 py-24">
+      <section id="evidence" className="border-t border-foreground/10 py-24">
         <div className="mx-auto max-w-5xl px-6">
           <h2 className="text-center text-3xl font-bold">
             Scientific Evidence
@@ -180,13 +184,8 @@ export default function Home() {
           <p className="mx-auto mt-4 max-w-2xl text-center text-foreground/70">
             Backed by rigorous material testing in a master&apos;s thesis.
           </p>
-          <div className="mx-auto mt-14 max-w-2xl rounded-xl border border-foreground/10 p-8">
-            <h3 className="text-lg font-semibold">Strength Test</h3>
-            <p className="mt-3 text-sm leading-relaxed text-foreground/70">
-              In three-point bending tests, optimized models showed
-              improved maximum load compared to uniform-infill models of
-              the same weight.
-            </p>
+          <div className="mt-14">
+            <BendingTestChart />
           </div>
         </div>
       </section>
