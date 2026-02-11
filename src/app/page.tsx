@@ -1,3 +1,5 @@
+import WorkflowSection from "./WorkflowSection";
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -167,47 +169,7 @@ export default function Home() {
       </section>
 
       {/* Workflow */}
-      <section id="workflow" className="border-t border-foreground/10 py-24">
-        <div className="mx-auto max-w-5xl px-6">
-          <h2 className="text-center text-3xl font-bold">
-            4-Step Workflow
-          </h2>
-          <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                step: "1",
-                title: "Import",
-                desc: "Import your CAD model (STEP file) into Strecs3D.",
-              },
-              {
-                step: "2",
-                title: "Analyze",
-                desc: "Set load conditions and fixed faces with an intuitive UI, then run the analysis.",
-              },
-              {
-                step: "3",
-                title: "Optimize",
-                desc: "Infill density is automatically assigned per region based on the analysis results.",
-              },
-              {
-                step: "4",
-                title: "Export",
-                desc: "Export as 3MF and print with your favorite slicer.",
-              },
-            ].map((item) => (
-              <div key={item.step} className="text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-foreground text-lg font-bold text-background">
-                  {item.step}
-                </div>
-                <h3 className="mt-4 text-lg font-semibold">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/70">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <WorkflowSection />
 
       {/* Evidence */}
       <section className="border-t border-foreground/10 py-24">
