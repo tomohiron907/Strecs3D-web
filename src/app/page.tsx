@@ -1,3 +1,4 @@
+import Header from "./Header";
 import WorkflowSection from "./WorkflowSection";
 import BendingTestChart from "./BendingTestChart";
 import ConcentricDiagram from "./ConcentricDiagram";
@@ -5,32 +6,7 @@ import ConcentricDiagram from "./ConcentricDiagram";
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <img src="/logo-mark.png" alt="Strecs3D" className="h-10" />
-            <img src="/logo-type.svg" alt="Strecs3D" className="h-6" />
-          </div>
-          <nav className="flex gap-6 text-sm">
-            <a href="#benefits" className="transition-colors hover:text-foreground/70">
-              Benefits
-            </a>
-            <a href="#examples" className="transition-colors hover:text-foreground/70">
-              Examples
-            </a>
-            <a href="#workflow" className="transition-colors hover:text-foreground/70">
-              Workflow
-            </a>
-            <a href="#evidence" className="transition-colors hover:text-foreground/70">
-              Evidence
-            </a>
-            <a href="#get-started" className="transition-colors hover:text-foreground/70">
-              Get Started
-            </a>
-          </nav>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero */}
       <section className="mx-auto max-w-5xl px-6 py-20 text-center">
