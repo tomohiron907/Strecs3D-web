@@ -43,10 +43,12 @@ function badgeClass(
   item: "cad" | "strecs" | "slicer",
   active: "cad" | "strecs" | "slicer"
 ) {
+  const base =
+    "rounded-full px-5 py-2 text-sm sm:text-base transition-all duration-500";
   if (item === active) {
-    return "rounded-full px-5 py-2 text-sm font-bold sm:text-base bg-foreground/15 text-foreground/90 ring-1 ring-foreground/25 transition-all duration-500";
+    return `${base} font-bold bg-foreground/15 text-foreground/90 ring-1 ring-foreground/25`;
   }
-  return "rounded-full px-4 py-1.5 text-xs font-semibold sm:text-sm bg-foreground/8 text-foreground/40 transition-all duration-500";
+  return `${base} font-semibold bg-foreground/8 text-foreground/40`;
 }
 
 export default function WorkflowSection() {
@@ -164,11 +166,60 @@ export default function WorkflowSection() {
 
       {/* Lower section */}
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
-        <div className="rounded-2xl border border-foreground/10 bg-foreground/[0.02] px-4 py-8 sm:px-8 sm:py-10">
-          {/* CAD phase: single card */}
+        <div className="relative rounded-2xl border border-foreground/10 bg-foreground/[0.02] px-4 py-8 sm:px-8 sm:py-10">
+          {/* Strecs3D phase: 4 detail cards — always rendered to set the container height */}
+          <div
+            className="grid w-full grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4 lg:gap-4"
+            style={{
+              visibility: group === "strecs" ? "visible" : "hidden",
+              transition: "opacity 0.4s ease",
+              opacity: group === "strecs" ? 1 : 0,
+            }}
+          >
+            {detailSteps.map((item, i) => {
+              const isActive = i === strecsDetailIndex;
+              return (
+                <div key={item.step} className="relative flex items-stretch">
+                  <div
+                    onClick={() => handlePhaseClick(i + 1)}
+                    className={`flex w-full cursor-pointer flex-col items-center rounded-xl border p-4 sm:p-5 ${
+                      isActive
+                        ? "border-foreground/50 shadow-lg"
+                        : "border-foreground/10"
+                    }`}
+                    style={{
+                      transform: isActive ? "scale(1.03)" : "scale(0.97)",
+                      opacity: isActive ? 1 : 0.5,
+                      transition:
+                        "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease, border-color 0.4s ease, box-shadow 0.4s ease",
+                    }}
+                  >
+                    <h3 className="text-sm font-semibold sm:text-base">
+                      {item.step}. {item.title}
+                    </h3>
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="mt-3 h-28 w-full object-contain sm:h-36"
+                    />
+                    <p className="mt-2 text-center text-xs leading-relaxed text-foreground/60">
+                      {item.desc}
+                    </p>
+                  </div>
+                  {i < detailSteps.length - 1 && (
+                    <span className="absolute -right-3.5 top-1/2 z-10 hidden -translate-y-1/2 text-lg text-foreground/25 lg:block">
+                      →
+                    </span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* CAD phase: single card — overlaid */}
           {group === "cad" && (
-            <div className="flex justify-center">
-              <div className="flex w-full max-w-xs flex-col items-center rounded-xl border border-foreground/50 p-5 shadow-lg">
+            <div className="absolute inset-0 flex items-center justify-center px-4 py-8 sm:px-8 sm:py-10">
+              <div className="flex w-full max-w-xs flex-col items-center rounded-xl border border-foreground/50 bg-background p-5 shadow-lg">
                 <h3 className="text-sm font-semibold sm:text-base">
                   0. Design
                 </h3>
@@ -184,71 +235,10 @@ export default function WorkflowSection() {
             </div>
           )}
 
-          {/* Strecs3D phase: 4 detail cards */}
-          {group === "strecs" && (
-            <>
-              <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4 lg:gap-4">
-                {detailSteps.map((item, i) => {
-                  const isActive = i === strecsDetailIndex;
-                  return (
-                    <div key={item.step} className="relative flex items-stretch">
-                      <div
-                        onClick={() => handlePhaseClick(i + 1)}
-                        className={`flex w-full cursor-pointer flex-col items-center rounded-xl border p-4 sm:p-5 ${
-                          isActive
-                            ? "border-foreground/50 shadow-lg"
-                            : "border-foreground/10"
-                        }`}
-                        style={{
-                          transform: isActive ? "scale(1.03)" : "scale(0.97)",
-                          opacity: isActive ? 1 : 0.5,
-                          transition:
-                            "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease, border-color 0.4s ease, box-shadow 0.4s ease",
-                        }}
-                      >
-                        <h3 className="text-sm font-semibold sm:text-base">
-                          {item.step}. {item.title}
-                        </h3>
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="mt-3 h-28 w-full object-contain sm:h-36"
-                        />
-                        <p className="mt-2 text-center text-xs leading-relaxed text-foreground/60">
-                          {item.desc}
-                        </p>
-                      </div>
-                      {i < detailSteps.length - 1 && (
-                        <span className="absolute -right-3.5 top-1/2 z-10 hidden -translate-y-1/2 text-lg text-foreground/25 lg:block">
-                          →
-                        </span>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Step indicator dots */}
-              <div className="mt-6 flex justify-center gap-2">
-                {detailSteps.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => handlePhaseClick(i + 1)}
-                    className={`h-2 rounded-full transition-all duration-400 ${
-                      i === strecsDetailIndex
-                        ? "w-6 bg-foreground/50"
-                        : "w-2 bg-foreground/20"
-                    }`}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-
-          {/* Slicer phase: single card */}
+          {/* Slicer phase: single card — overlaid */}
           {group === "slicer" && (
-            <div className="flex justify-center">
-              <div className="flex w-full max-w-xs flex-col items-center rounded-xl border border-foreground/50 p-5 shadow-lg">
+            <div className="absolute inset-0 flex items-center justify-center px-4 py-8 sm:px-8 sm:py-10">
+              <div className="flex w-full max-w-xs flex-col items-center rounded-xl border border-foreground/50 bg-background p-5 shadow-lg">
                 <h3 className="text-sm font-semibold sm:text-base">
                   5. Slice
                 </h3>
