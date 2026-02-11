@@ -63,12 +63,7 @@ export default function Home() {
           >
             Download
           </a>
-          <a
-            href="#workflow"
-            className="rounded-full border border-foreground/20 px-6 py-3 text-sm font-medium transition-colors hover:bg-foreground/5"
-          >
-            How It Works
-          </a>
+
         </div>
       </section>
 
