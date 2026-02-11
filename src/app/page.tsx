@@ -1,5 +1,6 @@
 import WorkflowSection from "./WorkflowSection";
 import BendingTestChart from "./BendingTestChart";
+import ConcentricDiagram from "./ConcentricDiagram";
 
 export default function Home() {
   return (
@@ -192,17 +193,20 @@ export default function Home() {
 
       {/* Origin */}
       <section className="border-t border-foreground/10 py-24">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <h2 className="text-3xl font-bold">
+        <div className="mx-auto max-w-5xl px-6">
+          <h2 className="text-center text-3xl font-bold">
             From RoboCon to Every Engineer
           </h2>
-          <p className="mt-6 leading-relaxed text-foreground/70">
-            Strecs3D was born from the real-world demands of robot
-            competitions, where every gram matters and reliability is
-            non-negotiable. This tool was built for all engineers who face
-            the challenge of making parts that are both light and
-            unbreakable.
-          </p>
+          <div className="mt-12 grid items-center gap-12 lg:grid-cols-2">
+            <ConcentricDiagram className="order-first" />
+            <p className="leading-relaxed text-foreground/70">
+              Strecs3D was born from the real-world demands of robot
+              competitions, where every gram matters and reliability is
+              non-negotiable. This tool was built for all engineers who face
+              the challenge of making parts that are both light and
+              unbreakable.
+            </p>
+          </div>
         </div>
       </section>
 
