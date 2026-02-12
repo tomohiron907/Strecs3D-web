@@ -1,4 +1,5 @@
 import Header from "./Header";
+import Footer from "./Footer";
 import WorkflowSection from "./WorkflowSection";
 import BendingTestChart from "./BendingTestChart";
 import ConcentricDiagram from "./ConcentricDiagram";
@@ -211,12 +212,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-foreground/10 py-8">
-        <div className="mx-auto max-w-5xl px-6 text-center text-sm text-foreground/50">
-          &copy; {new Date().getFullYear()} Strecs3D. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
