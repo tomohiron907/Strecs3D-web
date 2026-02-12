@@ -28,7 +28,7 @@ export default function Home() {
             className="w-full"
           >
             <source
-              src="https://github.com/tomohiron907/Strecs3D-web/releases/download/v1.0.0/Strecs3D-demo.mp4"
+              src="https://github.com/tomohiron907/Strecs3D-web/releases/download/v1.0.1/Strecs3D-demo2.mp4"
               type="video/mp4"
             />
           </video>
