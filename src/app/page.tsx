@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import WorkflowSection from "./WorkflowSection";
 import BendingTestChart from "./BendingTestChart";
 import ConcentricDiagram from "./ConcentricDiagram";
+import ExamplesSection from "./ExamplesSection";
 
 export default function Home() {
   return (
@@ -100,50 +101,7 @@ export default function Home() {
       </section>
 
       {/* Examples */}
-      <section id="examples" className="border-t border-foreground/10 py-24">
-        <div className="mx-auto max-w-5xl px-6">
-          <h2 className="text-center text-3xl font-bold">Examples</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-foreground/70">
-            From mechanical parts to everyday items — strengthen your prints
-            with optimized infill.
-          </p>
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { src: "/examples/bearing_holder.png", alt: "Bearing Holder" },
-              { src: "/examples/canti.png", alt: "Cantilever" },
-              { src: "/examples/drone.png", alt: "Drone" },
-              { src: "/examples/frame_connector.png", alt: "Frame Connector" },
-              { src: "/examples/wall_hook.png", alt: "Wall Hook" },
-              { src: "/examples/tablet_stand.png", alt: "Tablet Stand" },
-              { src: "/examples/rod_connector.png", alt: "Rod Connector" },
-              { src: "/examples/motor_mount.png", alt: "Motor Mount" },
-              { src: "/examples/iphone_stand.png", alt: "iPhone Stand" },
-              { src: "/examples/hook.png", alt: "Hook" },
-              { src: "/examples/handle.png", alt: "Handle" },
-            ].map((item) => (
-              <div
-                key={item.src}
-                className="overflow-hidden rounded-xl border border-foreground/10"
-              >
-                <img
-                  src={item.src}
-                  alt={item.alt}
-                  className="aspect-[4/3] w-full object-cover"
-                />
-              </div>
-            ))}
-            <a
-              href="#get-started"
-              className="flex aspect-[4/3] flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-foreground/20 transition-colors hover:border-foreground/40 hover:bg-foreground/5"
-            >
-              <span className="text-3xl">+</span>
-              <span className="text-sm font-medium text-foreground/50">
-                Try it with your model
-              </span>
-            </a>
-          </div>
-        </div>
-      </section>
+      <ExamplesSection />
 
       {/* Workflow */}
       <WorkflowSection />
