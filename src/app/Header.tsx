@@ -3,11 +3,7 @@
 import { useState } from "react";
 
 const navLinks = [
-  { href: "#benefits", label: "Benefits" },
-  { href: "#examples", label: "Examples" },
-  { href: "#workflow", label: "Workflow" },
-  { href: "#evidence", label: "Evidence" },
-  { href: "#get-started", label: "Get Started" },
+  { href: "/", label: "Home" },
   { href: "/how-to-use", label: "How to Use" },
 ];
 
