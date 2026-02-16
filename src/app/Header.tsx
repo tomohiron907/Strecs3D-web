@@ -8,6 +8,7 @@ const navLinks = [
   { href: "#workflow", label: "Workflow" },
   { href: "#evidence", label: "Evidence" },
   { href: "#get-started", label: "Get Started" },
+  { href: "/how-to-use", label: "How to Use" },
 ];
 
 export default function Header() {

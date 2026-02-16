@@ -4,6 +4,7 @@ const navLinks = [
   { href: "#workflow", label: "Workflow" },
   { href: "#evidence", label: "Evidence" },
   { href: "#get-started", label: "Get Started" },
+  { href: "/how-to-use", label: "How to Use" },
 ];
 
 export default function Footer() {
@@ -53,7 +54,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://github.com/tomohiron907/Strecs3D"
+                  href="/how-to-use"
                   className="transition-colors hover:text-foreground/70"
                 >
                   Documentation
