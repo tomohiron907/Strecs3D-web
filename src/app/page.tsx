@@ -39,7 +39,7 @@ export default function Home() {
             href="#get-started"
             className="rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-80"
           >
-            Download
+            Download Strecs3D v2.0.0
           </a>
 
         </div>
@@ -147,24 +147,19 @@ export default function Home() {
       >
         <div className="mx-auto max-w-5xl px-6 text-center">
           <h2 className="text-3xl font-bold">Get Started</h2>
-          <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <p className="mt-4 text-sm text-foreground/60">Strecs3D v2.0.0</p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
-              href="#"
-              className="inline-flex items-center gap-2 rounded-full bg-foreground px-8 py-3 text-sm font-medium text-background transition-opacity hover:opacity-80"
+              href="https://github.com/tomohiron907/Strecs3D/releases/download/v2.0.0/Strecs3D_MacOS_Installer.dmg"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground w-56 py-3 text-sm font-medium text-background transition-opacity hover:opacity-80"
             >
-              Download v2.0.0-beta
+              Download for Mac
             </a>
             <a
-              href="#"
-              className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-8 py-3 text-sm font-medium transition-colors hover:bg-foreground/5"
+              href="https://github.com/tomohiron907/Strecs3D/releases/download/v2.0.0/Strecs3D_Windows_Installer.zip"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground w-56 py-3 text-sm font-medium text-background transition-opacity hover:opacity-80"
             >
-              Documentation
-            </a>
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-8 py-3 text-sm font-medium transition-colors hover:bg-foreground/5"
-            >
-              Academic Paper
+              Download for Windows
             </a>
           </div>
         </div>
