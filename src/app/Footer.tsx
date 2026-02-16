@@ -1,6 +1,7 @@
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/how-to-use", label: "How to Use" },
+  { href: "/links", label: "Links" },
 ];
 
 export default function Footer() {
@@ -58,7 +59,9 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="https://github.com/tomohiron907/master-thesis/releases/download/v1/master-thesis.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="transition-colors hover:text-foreground/70"
                 >
                   Academic Paper
